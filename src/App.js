@@ -1,32 +1,37 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Home from './pages/Home';
-import CartPage from './pages/CartPage';
-import AccountPage from './pages/AccountPage';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Home from './pages/Home.js';
+import CartPage from './pages/CartPage.js';
+import AccountPage from './pages/AccountPage.js';
+
 import './App.css';
 
 const App = () => {
   const [products] = useState([
-    { id: 1, name: 'Product 1', description: 'Description 1', price: 10, image: 'image1.jpg' },
-    { id: 2, name: 'Product 2', description: 'Description 2', price: 20, image: 'image2.jpg' },
-    { id: 3, name: 'Product 3', description: 'Description 3', price: 30, image: 'image3.jpg' },
-    { id: 4, name: 'Product 4', description: 'Description 4', price: 40, image: 'image4.jpg' },
-    { id: 5, name: 'Product 5', description: 'Description 5', price: 50, image: 'image5.jpg' }
+    { id: 1, name: 'Smart Water Bottle', description: 'A smart water bottle that tracks your daily water intake and reminds you to stay hydrated via a mobile app.', price: 45, image: './images/SmartWaterBottle.jpeg' },
+    { id: 2, name: 'Compact Air Purifier', description: 'Portable air purifier with HEPA filter technology, ideal for small rooms and office spaces.', price: 60, image: './images/AirPurifier.jpeg' },
+    { id: 3, name: 'Wireless Charging Pad', description: 'Sleek and fast wireless charging pad compatible with Qi-enabled devices, including smartphones and earbuds.', price: 25, image: './images/WirelessChargingPad.jpeg' },
+    { id: 4, name: 'Electric Spice Grinder', description: 'High-performance electric spice grinder with stainless steel blades, perfect for grinding spices, herbs, and coffee beans.', price: 35, image: './images/ElectricSpiceGrinder.jpeg' },
+    { id: 5, name: 'Smart Light Bulb', description: 'Wi-Fi enabled smart light bulb with adjustable brightness and color. Control via a smartphone app or voice commands with Alexa/Google Assistant.', price: 20, image: './images/Smartlightbulbs.jpg' }
   ]);
 
   const [cartItems, setCartItems] = useState([]);
   const [user, setUser] = useState({ name: '', address: '' });
 
+
+  // add to cart
   const handleAddToCart = product => {
     setCartItems([...cartItems, { ...product, quantity: 1 }]);
   };
 
+  // update the quantity
   const handleUpdateQuantity = (product, quantity) => {
     setCartItems(
       cartItems.map(item => (item.id === product.id ? { ...item, quantity: parseInt(quantity, 10) } : item))
     );
   };
 
+  // remove item form cart
   const handleRemoveItem = product => {
     setCartItems(cartItems.filter(item => item.id !== product.id));
   };
@@ -43,25 +48,25 @@ const App = () => {
   return (
     <Router>
       <div className="App">
-        <Switch>
-          <Route path="/" exact>
-            <Home products={products} onAddToCart={handleAddToCart} />
-          </Route>
-          <Route path="/cart">
-            <CartPage
+        <Routes>
+          <Route path="/" element={<Home products={products} onAddToCart={handleAddToCart} />} />
+          <Route 
+            path="/cart" 
+            element={<CartPage
               cartItems={cartItems}
               onUpdateQuantity={handleUpdateQuantity}
               onRemoveItem={handleRemoveItem}
               onFinalizePurchase={handleFinalizePurchase}
-            />
-          </Route>
-          <Route path="/account">
-            <AccountPage user={user} onUpdateUser={handleUpdateUser} />
-          </Route>
-        </Switch>
+            />} 
+          />
+          <Route 
+            path="/account" 
+            element={<AccountPage user={user} onUpdateUser={handleUpdateUser} />} 
+          />
+        </Routes>
       </div>
     </Router>
   );
 };
 
-export default App;
+export default App;

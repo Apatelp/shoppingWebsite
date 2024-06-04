@@ -1,9 +1,9 @@
 import React from 'react';
-import { Table, Button } from 'reactstrap';
+import { Table, Button } from 'react-bootstrap';
 
 const Cart = ({ cartItems, onUpdateQuantity, onRemoveItem, onFinalizePurchase }) => (
   <div>
-    <h2>Shopping Cart</h2>
+    <h1>Shopping Cart</h1>
     <Table>
       <thead>
         <tr>
